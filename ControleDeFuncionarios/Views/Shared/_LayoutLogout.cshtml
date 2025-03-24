@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title class="text-center">@ViewData["Title"] - Controle de Funcionários</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ControleDeFuncionarios.styles.css" asp-append-version="true" />
+    <link href="https://cdn.datatables.net/v/dt/dt-2.0.8/datatables.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 56px; /* Espaço igual à altura da navbar */
+            padding-bottom: 50px; /* Espaço igual à altura do rodapé */
+            margin: 0; /* Remove margens padrão */
+            box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
+        }
+
+        /* Estilo customizado */
+        .navbar {
+            background-color: #052E6B; /* Cor de fundo da navbar */
+            position: fixed; /* Deixa a navbar fixa */
+            top: 0; /* Fixa no topo da tela */
+            width: 100%; /* Largura completa da tela */
+            z-index: 1000; /* Garante que a navbar fique acima de outros elementos */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffffff; /* Cor do texto */
+            display: flex;
+            align-items: center; /* Alinha verticalmente o conteúdo */
+        }
+
+            .navbar-brand img {
+                width: 120px; /* Ajuste o tamanho do logotipo conforme necessário */
+                height: auto; /* Mantém a proporção do logotipo */
+            }
+
+            .navbar-brand img:hover {
+                opacity: 0.5;
+                animation-name: example;
+                animation-duration: 1s;
+                transition: 0.3s ease;
+            }
+
+            .navbar-brand:hover {
+                color: #ffffff; /* Cor dos links ao passar o mouse */
+            }
+
+        .nav-link {
+            font-weight: bold;
+            color: #ffffff; /* Cor dos links */
+        }
+
+            .nav-link:hover {
+                color: #000; /* Cor dos links ao passar o mouse */
+            }
+
+            .nav-link.active {
+                background-color: #052E6B; /* Cor de fundo do link ativo */
+                color: #ffffff; /* Cor do texto do link ativo */
+                font-weight: bold; /* Negrito para link ativo */
+            }
+
+        button.btn.btn-primary{
+            background-color: #052E6B;
+        }
+
+        .rodape {
+            background-color: #052E6B; /* Fundo claro */
+            padding: 1rem 0; /* Espaçamento interno */
+            position: fixed; /* Deixa o rodapé fixo */
+            bottom: 0; /* Fixa no fundo da tela */
+            width: 100%; /* Largura completa da tela */
+            z-index: 1000; /* Garante que o rodapé fique acima de outros elementos */
+            height: 50px; /* Altura do rodapé */
+            display: flex; /* Alinha o conteúdo centralmente */
+            align-items: center; /* Alinha o conteúdo centralmente */
+            justify-content: center; /* Centraliza o conteúdo horizontalmente */
+            font-size:12px;
+        }
+
+        .rodape {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">
+                    <img src="~/img/imagem_2024-06-07_142359973-removebg-preview.png" alt="InovaS" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted mt-auto py-3">
+        <div class="rodape text-center fst-italic">
+            &copy; 2024 - InovaS, a equipe que acredita na inovação com Softwares.
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.0.8/datatables.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

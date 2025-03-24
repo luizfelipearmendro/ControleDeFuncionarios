@@ -1,0 +1,150 @@
+﻿@model IEnumerable<ControleDeFuncionarios.Models.FuncionariosPorSetorViewModel>
+
+@{
+    ViewData["Title"] = "Gráfico de Funcionários por Setor";
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/modules/export-data.js"></script>
+}
+
+<style>
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        margin-bottom: 20px; /* Adicionado para espaçamento entre os cards */
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+</style>
+
+<div class="container" style="margin-top: 50px;">
+    <h3 class="text-center" style="font-weight:bold;">Dashboard de Acompanhamento</h3>
+
+    <div class="row justify-content-center" style="margin-top: 40px;">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Total de Funcionários</h4>
+                    <p class="card-text text-center" id="totalFuncionarios">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Total de Setores</h4>
+                    <p class="card-text text-center" id="totalSetores">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="container" style="width:100%; height:400px;margin-top:40px"></div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var funcionariosPorSetor = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.FuncionariosPorSetor));
+
+            var labels = funcionariosPorSetor.map(function (item) {
+                return item.Setor;
+            });
+
+            var data = funcionariosPorSetor.map(function (item) {
+                return item.Quantidade;
+            });
+
+            // Calcular o total de funcionários
+            var totalFuncionarios = data.reduce(function (acc, val) { //metodo reduce para calcular a soma total das quantidades de funcionários presentes nos dados fornecidos (data).
+                return acc + val;
+            }, 0);
+
+            var setoresUnicos = new Set(labels); // cria um conjunto com os setores únicos
+            var totalSetores = setoresUnicos.size; // obtém o número total de setores únicos
+
+            // atualizar o card com o total de funcionários e setores
+            $('#totalFuncionarios').text(totalFuncionarios);
+            $('#totalSetores').text(totalSetores);
+
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Funcionários por Setor',
+                    style: {
+                        fontSize: '24px', // tamanho da fonte do título
+                        fontFamily: 'Calibri, sans-serif' // tipo de fonte do título
+                    }
+                },
+                xAxis: {
+                    categories: labels,
+                    labels: {
+                        style: {
+                            fontSize: '20px', // tamanho da fonte do título
+                            fontFamily: 'Calibri, sans-serif', // tipo de fonte do título
+                            fontWeight: 'bold'
+                        }
+                    },
+                    title: {
+                        text: 'Setores',
+                        style: {
+                            fontSize: '20px', // tamanho da fonte do título
+                            fontFamily: 'Calibri, sans-serif' // tipo de fonte do título
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Quantidade de Funcionários',
+                        style: {
+                            fontSize: '18px', // tamanho da fonte do título
+                            fontFamily: 'Calibri, sans-serif', //tipo de fonte do título
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Funcionários',
+                    colors: ['#008080', '#FF6347', '#861ec9', '#7FFF00', '#DEB887', '#2F4F4F',
+                        '#6225ed', '#DC143C', '#533be1', '#4c46db', '#FF4500', '#3e5ccf',
+                        '#3667c9', '#2f72c3', '#2F4F4F', '#1f88b7', '#5F9EA0', '#DEB887',
+                        '#DEB887', '#FF4500'],
+                    colorByPoint: true,
+                    groupPadding: 0,
+                    data: data,
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000',
+                        align: 'center',
+                        format: '{point.y}', // no decimal
+                        y: 15, // 10 pixels down from the top
+                        style: {
+                            fontSize: '30px', // Tamanho da fonte dos rótulos de dados
+                            fontFamily: 'Calibri, sans-serif'
+                        }
+                    }
+                }]
+            });
+        });
+    </script>
+}

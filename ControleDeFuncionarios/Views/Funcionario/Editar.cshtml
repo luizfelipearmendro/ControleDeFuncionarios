@@ -1,0 +1,53 @@
+﻿@model FuncionarioModel
+@{
+    ViewData["Title"] = "Editar Funcionário";
+}
+
+<div class="text-center">
+
+    <h3 class="display-7" style="font-weight:bold;">Editar Funcionário</h3>
+
+</div>
+
+<form asp-controller="Funcionario" asp-action="Editar" method="post">
+    
+    <input type="hidden" asp-for="Id" />
+    
+    <div class="form-group">
+        <label for="nome" class="fw-bold">Nome</label>
+        <input type="text" required asp-for="Nome" class="form-control" placeholder="Digite a alteração do nome do funcionário.">
+        @Html.ValidationMessageFor(x => x.Nome)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="email" class="fw-bold">E-mail</label>
+        <input type="text" required asp-for="Email" class="form-control" placeholder="Digite a alteração do e-mail do funcionário.">
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="celular" class="fw-bold">Celular</label>
+        <input type="text" required asp-for="Celular" class="form-control" placeholder="Digite a alteração do telefone do funcionário.">
+        @Html.ValidationMessageFor(x => x.Celular)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="cargo" class="fw-bold">Cargo</label>
+        <input type="text" required asp-for="Cargo" class="form-control" placeholder="Digite o cargo do novo funcionário.">
+        @Html.ValidationMessageFor(x => x.Cargo)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="setor" class="fw-bold">Setor</label>
+        <input type="text" required asp-for="Setor" class="form-control" placeholder="Digite o setor do novo funcionário.">
+        @Html.ValidationMessageFor(x => x.Setor)
+    </div>
+    <br />
+
+    <button type="submit" class="btn btn-primary w-100" style="background: #052E6B;border-color: #052E6B">Editar</button>
+    <a class="btn btn-secondary w-100 mt-2" asp-controller="Funcionario" asp-action="Index" role="button">Voltar</a>
+</form>

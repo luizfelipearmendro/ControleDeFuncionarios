@@ -1,0 +1,107 @@
+﻿@model List<FuncionarioModel>
+@{
+    ViewData["Title"] = "Listagem de Funcionario";
+}
+
+<div class="text-center">
+    <br />
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary" role="button" asp-controller="Funcionario" asp-action="Criar" style="background: #052E6B;border-color: #052E6B">Adicionar um novo funcionário</a>
+    </div><br />
+
+    <!--          mensagens de alerta         -->
+    @if(TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+    }
+    <!-- -------------------------------------- -->
+
+    <h3 class="display-7" style="font-weight:bold;">Listagem de Funcionários</h3>
+    <br />
+
+    <table id="table-contatos" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">ID</th>
+                <th class="text-center" scope="col">Nome</th>
+                <th class="text-center" scope="col">E-mail</th>
+                <th class="text-center" scope="col">Celular</th>
+                <th class="text-center" scope="col">Cargo</th>
+                <th class="text-center" scope="col">Setor</th>
+                <th class="text-center" scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null && Model.Any())
+            {
+                foreach(FuncionarioModel contato in Model)
+                {
+                    <tr>
+                        <th scope="row">@contato.Id</th>
+                        <td class="text-center">@contato.Nome</td>
+                        <td class="text-center">@contato.Email</td>
+                        <td class="text-center">@contato.Celular</td>
+                        <td class="text-center">@contato.Cargo</td>
+                        <td class="text-center">@contato.Setor</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a role="button" class="btn btn-primary" style="background: #052E6B;border-color: #052E6B" asp-route-id="@contato.Id" asp-controller="Funcionario" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" contato-id="@contato.Id" contato-name="@contato.Nome">Apagar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="odd"><td valign="top" colspan="5">Nenhum funcionario encontrado</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para confirmação de exclusão -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel" style="font-weight:bold">Confirmar Exclusão do Funcionário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir o funcionário <span id="modalUserName"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a id="confirmDeleteButton" role="button" class="btn btn-danger">Confirmar exclusão</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var deleteModal = document.getElementById('confirmDeleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var userId = button.getAttribute('contato-id');
+            var userName = button.getAttribute('contato-name');
+            var modalUserName = document.getElementById('modalUserName');
+            var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+            modalUserName.textContent = userName;
+            confirmDeleteButton.href = '/Funcionario/Apagar/' + userId;
+        });
+    });
+</script>

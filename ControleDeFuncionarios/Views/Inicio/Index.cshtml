@@ -1,0 +1,19 @@
+﻿@model FuncionarioModel
+@{
+    ViewData["Title"] = "Iniciar";
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Página de Inicialização</h1>
+
+</div>
+
+<form asp-controller="Iniciar">
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o seu nome.">
+    </div>
+    <br />
+    <a class="btn btn-secondary w-100 mt-2" asp-controller="Home" asp-action="Index" role="button">Iniciar Programa</a>
+</form>

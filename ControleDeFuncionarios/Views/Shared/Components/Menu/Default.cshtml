@@ -1,0 +1,50 @@
+﻿@model UsuarioModel
+
+<style>
+            .navbar-brand img {
+                width: 120px; /* Ajuste o tamanho do logotipo conforme necessário */
+                height: auto; /* Mantém a proporção do logotipo */
+            }
+
+            .navbar-brand img:hover {
+                opacity: 0.5;
+                animation-name: example;
+                animation-duration: 1s;
+                transition: 0.3s ease;
+            }
+</style>
+
+
+<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+    <img src="~/img/imagem_2024-06-07_142359973-removebg-preview.png" alt="InovaS" />
+</a>
+<ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+        <a class="nav-link" style="color: #b7d5e5" asp-area="">Olá, @Model.Name</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Página Inicial</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Funcionario" asp-action="Index">Funcionários</a>
+    </li>
+
+    @if (Model.Perfil == ControleDeFuncionarios.Enum.PerfilEnum.Admin)
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Usuario" asp-action="Index">Usuários</a>
+        </li>
+    }
+
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Funcionario" asp-action="Grafico">Dashboard</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="AlterarSenha" asp-action="Index">Alterar Senha</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Sair">Sair</a>
+    </li>
+</ul> 

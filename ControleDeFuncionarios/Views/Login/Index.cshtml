@@ -1,0 +1,53 @@
+﻿@model LoginModel
+
+@{
+    Layout = "_LayoutLogout";
+    ViewData["Title"] = "Login";
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+}
+
+<br />
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
+}
+<br />
+
+<form asp-controller="Login" asp-action="Entrar" method="post" class="p-4 border rounded shadow-sm">
+    <h3 class="text-center mb-4" style="font-weight:bold;">Seja bem-vindo(a)</h3>
+    <div class="mb-3">
+        <label for="login" class="form-label">Login</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            <input type="text" asp-for="Login" required class="form-control" id="login" placeholder="Digite seu login">
+        </div>
+        @Html.ValidationMessageFor(x => x.Login, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-key"></i></span>
+            <input type="password" asp-for="Senha" required class="form-control" id="senha" placeholder="Digite sua senha">
+        </div>
+        @Html.ValidationMessageFor(x => x.Senha, "", new { @class = "text-danger" })
+    </div>
+
+    <p class="mb-4 text-sm mx-auto">
+        Esqueceu sua senha?
+        <a asp-action="RedefinirSenha" asp-controller="Login" class="text-primary text-gradient font-weight-bolt" style="text-decoration-line:none;">Redefinir minha senha.</a>
+    </p>
+
+    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+</form>

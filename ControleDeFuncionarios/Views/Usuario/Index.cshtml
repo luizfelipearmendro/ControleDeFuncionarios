@@ -1,0 +1,110 @@
+﻿@model List<UsuarioModel>
+@{
+    ViewData["Title"] = "Listagem de Usuários";
+}
+
+<div class="text-center">
+    <br />
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary" role="button" asp-controller="Usuario" asp-action="Criar" style="background: #052E6B;border-color: #052E6B">Adicionar um novo usuário</a>
+    </div>
+    <br />
+
+    <!-- Mensagens de alerta -->
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+    }
+    <!-- -------------------------------------- -->
+
+    <h3 class="display-7" style="font-weight:bold;">Listagem de Usuários</h3>
+    <br />
+
+    <table id="table-usuarios" class="display text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">ID</th>
+                <th class="text-center" scope="col">Nome</th>
+                <th class="text-center" scope="col">Login</th>
+                <th class="text-center" scope="col">E-mail</th>
+                <th class="text-center" scope="col">Perfil</th>
+                <th class="text-center" scope="col">Data de Cadastro</th>
+                <th class="text-center" scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (UsuarioModel usuario in Model)
+                {
+                    <tr>
+                        <th class="text-center" scope="row">@usuario.Id</th>
+                        <td class="text-center">@usuario.Name</td>
+                        <td class="text-center">@usuario.Login</td>
+                        <td class="text-center">@usuario.Email</td>
+                        <td class="text-center">@(usuario.Perfil == ControleDeFuncionarios.Enum.PerfilEnum.Admin ? "Administrador" : "Padrão")</td>
+                        <td class="text-center">@usuario.DataCadastro</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a role="button" class="btn btn-primary" style="background: #052E6B;border-color: #052E6B" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" usuario-id="@usuario.Id" usuario-name="@usuario.Name">Apagar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="odd">
+                    <td valign="top" colspan="7">Nenhum usuário encontrado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para confirmação de exclusão -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão do Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir o usuário <span id="modalUserName"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a id="confirmDeleteButton" role="button" class="btn btn-danger">Confirmar exclusão</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var deleteModal = document.getElementById('confirmDeleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var userId = button.getAttribute('usuario-id');
+            var userName = button.getAttribute('usuario-name');
+            var modalUserName = document.getElementById('modalUserName');
+            var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+            modalUserName.textContent = userName;
+            confirmDeleteButton.href = '/Usuario/Apagar/' + userId;
+        });
+    });
+</script>
